@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import React, { useState, useEffect, useRef } from "react";
 
-function App() {
+const App = () => {
+ 
+  const usePrevious = (value) => {
+    const ref = useRef(value);
+
+    useEffect(() => {
+      ref.current = value;
+    }, [value]);
+    return ref.current;
+  };
+
+  const addCount = () => {
+    setCount(count + previousCount);
+  };
+
+  const [count, setCount] = useState(1);
+  const previousCount = usePrevious(count); // hold the previous count
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <div>previousCount: {previousCount}</div>
+      <div>count: {count}</div>
+      <button onClick={addCount}>click me</button>
     </div>
   );
-}
+};
 
 export default App;
